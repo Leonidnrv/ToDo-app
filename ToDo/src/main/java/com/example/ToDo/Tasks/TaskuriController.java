@@ -33,6 +33,11 @@ public class TaskuriController {
         return ResponseEntity.ok(tasks);
     }
 
+    @GetMapping("/test_user_{nume}")
+    public boolean verificareUtilizator(@PathVariable String nume){
+        return taskuriService.verificareExistentaUtilizator(nume);
+    }
+
     //de create metode pentru:
     //creare task
     //modificare task
