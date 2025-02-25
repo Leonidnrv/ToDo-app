@@ -34,8 +34,10 @@ public class UtilizatoriController {
     public ResponseEntity<List<Utilizator>> getUtilizatorByNume(@PathVariable String nume){
         List<Utilizator> utilizator = utilizatoriService.getUtilizatorByNume(nume);
         if(utilizator.isEmpty()){
+            System.out.println("Nu am gasit utilizatorul.");
             return ResponseEntity.notFound().build(); //la fel ca functia de mai sus cu id
         }
+        System.out.println("Am gasit utilizatorul");
         return ResponseEntity.ok(utilizator);
     }
 

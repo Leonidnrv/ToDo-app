@@ -50,6 +50,13 @@ public class Taskuri {
         this.due_date = due_date;
         this.prioritate = prioritate;
     }
+    public Taskuri(String titlu, String descriere, String status, LocalDateTime due_date, char prioritate){
+        this.titlu = titlu;
+        this.descriere = descriere;
+        this.status = status;
+        this.due_date = due_date;
+        this.prioritate = prioritate;
+    }
 
     public Long getId() {
         return id;
