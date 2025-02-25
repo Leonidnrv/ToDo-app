@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,12 @@ public class TaskuriService {
         Taskuri taskNou;
         if(verificareExistentaUtilizator(nume_utilizator)){
             taskNou = new Taskuri(titlu, descriere, status, due_date, prioritate);
+            //De adaptat codul pentru formatul de data:
+            // DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+            // LocalDateTime localDate = LocalDateTime.of(2025,03,25,23,0);
+            // String dataFinala = localDate.format(dateTimeFormatter);
+            // System.out.println("Data finala: " + dataFinala);
+
             //salvam task-ul
             //taskuriRepository.save(); //va trebui sa facem aici un query custom pentru insert. In functie de ce date vom primi in json vom insera in db.
         }else{
