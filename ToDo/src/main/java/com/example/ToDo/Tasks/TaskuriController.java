@@ -1,12 +1,11 @@
 package com.example.ToDo.Tasks;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,6 +36,16 @@ public class TaskuriController {
     public boolean verificareUtilizator(@PathVariable String nume){
         return taskuriService.verificareExistentaUtilizator(nume);
     }
+
+    @PostMapping("/test_save_task")
+    public ResponseEntity<Taskuri> saveTask(){
+        System.out.println("1");
+        LocalDateTime localDateTime = LocalDateTime.of(2025,2,25,0,0,0);
+        System.out.println("2");
+        Taskuri nouTask = taskuriService.saveTask("Titlu1", "User2", "Descriere1", "In lucru", localDateTime, "0");
+        return ResponseEntity.ok(nouTask);
+    }
+
 
     //de create metode pentru:
     //creare task

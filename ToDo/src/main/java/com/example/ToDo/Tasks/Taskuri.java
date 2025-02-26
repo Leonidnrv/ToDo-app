@@ -29,8 +29,8 @@ public class Taskuri {
     private LocalDateTime due_date;
 
     @Column
-    @Pattern(regexp = "0|1|2|3|4", message = "Prioritatile pot fi de nivel 1, 2, 3 sau 4.")
-    private char prioritate;
+    @Pattern(regexp = "^[0-4]$", message = "Prioritatile pot fi de nivel 1, 2, 3 sau 4.")
+    private String prioritate;
 
     @Column
     private Long user_id;
@@ -42,7 +42,7 @@ public class Taskuri {
 
 
     public Taskuri(){};
-    public Taskuri(Long id, String titlu, String descriere, String status, LocalDateTime due_date, char prioritate) {
+    public Taskuri(Long id, String titlu, String descriere, String status, LocalDateTime due_date, String prioritate) {
         this.id = id;
         this.titlu = titlu;
         this.descriere = descriere;
@@ -50,7 +50,7 @@ public class Taskuri {
         this.due_date = due_date;
         this.prioritate = prioritate;
     }
-    public Taskuri(String titlu, String descriere, String status, LocalDateTime due_date, char prioritate){
+    public Taskuri(String titlu, String descriere, String status, LocalDateTime due_date, String prioritate){
         this.titlu = titlu;
         this.descriere = descriere;
         this.status = status;
@@ -88,10 +88,10 @@ public class Taskuri {
     public void setDue_date(LocalDateTime due_date) {
         this.due_date = due_date;
     }
-    public char getPrioritate() {
+    public String getPrioritate() {
         return prioritate;
     }
-    public void setPrioritate(char prioritate) {
+    public void setPrioritate(String prioritate) {
         this.prioritate = prioritate;
     }
     public Long getUser_id() {
