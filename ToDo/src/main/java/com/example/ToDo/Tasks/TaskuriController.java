@@ -39,10 +39,8 @@ public class TaskuriController {
 
     @PostMapping("/test_save_task")
     public ResponseEntity<Taskuri> saveTask(){
-        System.out.println("1");
         LocalDateTime localDateTime = LocalDateTime.of(2025,2,25,0,0,0);
-        System.out.println("2");
-        Taskuri nouTask = taskuriService.saveTask("Titlu1", "User2", "Descriere1", "In lucru", localDateTime, "0");
+        Taskuri nouTask = taskuriService.saveTask("Titlu1", "User2", "Descriere1_Modificat", "In lucru", localDateTime, "0");
         return ResponseEntity.ok(nouTask);
     }
 

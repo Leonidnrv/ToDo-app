@@ -24,15 +24,10 @@ public class TaskuriService {
 
     //1.de studiat cum va functiona metoda pentru ca este posibil sa facem overload la ea. Daca se completeaza si descrierea + alte campuri optionale.
     public Taskuri saveTask(String titlu, String nume_utilizator, String descriere, String status /*va trebui validat*/,LocalDateTime due_date, String prioritate /*va trebui validat*/){
-        System.out.println("3");
         Taskuri taskNou;
-        System.out.println("4");
         if(verificareExistentaUtilizator(nume_utilizator)){ //verificam daca utilizatorul exista
-            System.out.println("5");
-            Long user_id = returnIdByNumeUtilizator(nume_utilizator);
-            System.out.println("am gasit id-ul " + user_id + " pentru utilizatorul " + nume_utilizator);
-            taskNou = new Taskuri(titlu, descriere, status, due_date, prioritate, user_id);
-            System.out.println("6");
+            Long user_id = returnIdByNumeUtilizator(nume_utilizator); //stocam id-ul utilizatorului
+            taskNou = new Taskuri(13L,titlu, descriere, status, due_date, prioritate, user_id); //cream entitatea task
             //De adaptat codul pentru formatul de data:
             // DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
             // LocalDateTime localDate = LocalDateTime.of(2025,03,25,23,0);
@@ -53,14 +48,10 @@ public class TaskuriService {
     @Autowired
     private UtilizatoriRepository utilizatoriRepository; //instantiem pentru a folosi repositoriul in functia de mai jos:
     public boolean verificareExistentaUtilizator(String nume){
-        System.out.println("Am ajuns in verificareutilizator");
         List<Utilizator> utilizatorGasit = utilizatoriRepository.getUtilizatorByNume(nume);
-        System.out.println("S-a creat lista cu utilizatorul");
         if(utilizatorGasit.isEmpty()){//daca lista este goala -> nu am gasit nici un utilizator
-            System.out.println("Nu am gasit utilizatorul");
             return false;
         }else{
-            System.out.println("S-a gasit utilizatorul utilizatorul");
             return true;
         }
     }
