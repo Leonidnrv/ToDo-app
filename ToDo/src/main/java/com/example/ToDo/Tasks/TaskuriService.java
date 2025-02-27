@@ -29,7 +29,9 @@ public class TaskuriService {
         System.out.println("4");
         if(verificareExistentaUtilizator(nume_utilizator)){ //verificam daca utilizatorul exista
             System.out.println("5");
-            taskNou = new Taskuri(titlu, descriere, status, due_date, prioritate);
+            Long user_id = returnIdByNumeUtilizator(nume_utilizator);
+            System.out.println("am gasit id-ul " + user_id + " pentru utilizatorul " + nume_utilizator);
+            taskNou = new Taskuri(titlu, descriere, status, due_date, prioritate, user_id);
             System.out.println("6");
             //De adaptat codul pentru formatul de data:
             // DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -62,6 +64,11 @@ public class TaskuriService {
             return true;
         }
     }
+    public Long returnIdByNumeUtilizator(String nume){//metoda folosita in saveTask(). Daca utilizatorul exista, vom introduce numele lui si se va intoarce id-ul din db
+        return utilizatoriRepository.idByNume(nume);
+    }
+
+
     //de implementat metoda care va returna taskurile in functie de utilizator
     //de implementat metoda care va returna taskurile in functie de utilizator si prioritate
     //metoda pentru taskuri in functie de prioritate

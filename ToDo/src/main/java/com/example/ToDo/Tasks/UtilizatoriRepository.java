@@ -16,6 +16,10 @@ public interface UtilizatoriRepository extends JpaRepository<Utilizator, Long> {
 
     boolean existsByNume(String nume); //aici Spring va genera un query automat de forma 'SELECT count(*) > 0 FROM user WHERE nume = ?'
 
+    @Query(value = "SELECT DISTINCT id FROM users u WHERE u.nume = :nume", nativeQuery = true)
+    Long idByNume(@Param("nume") String nume);//aceasta functie primeste numele unui utilizator si intoarce id-ul din tabela users (folosita la salvarea de task-uri)
+
+
     void deleteByNume(String nume); //Spring va genera automat un cod SQL: 'DELETE FROM user WHERE nume = ?'
 
     List<Utilizator> getUtilizatorByNume(String nume);
