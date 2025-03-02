@@ -32,8 +32,8 @@ public class TaskuriController {
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/{utilizator}/{prioritate_task}") //se insera numele utilizatorului ca parametru
-    public ResponseEntity<List<Taskuri>> getTasksByUserAndPriority(@PathVariable String utilizator, @PathVariable String prioritate_task){
+    @GetMapping("/{utilizator}/prioritate_{prioritate_task}") //se insera numele utilizatorului ca parametru
+    public ResponseEntity<List<Taskuri>> getTaskByUserAndPriority(@PathVariable String utilizator, @PathVariable String prioritate_task){
         List<Taskuri> tasks = taskuriService.getTasksByUserAndPriority(utilizator, prioritate_task);
         if(tasks.isEmpty()){
             return ResponseEntity.notFound().build(); //daca nu a gasit nimic va intoarce 404. Atentie! Nu va intoarce un body (pentru asta va fi nevoie de dezvoltare RestControllerAdvice)
@@ -43,6 +43,21 @@ public class TaskuriController {
         }
         return ResponseEntity.ok(tasks);
     }
+
+    @GetMapping("/{utilizator}/nume_{nume_task}") //se insera numele utilizatorului ca parametru
+    public ResponseEntity<List<Taskuri>> getTaskByUserAndTaskname(@PathVariable String utilizator, @PathVariable String nume_task){ //vom pasa in path %20 pentru space " ". Exemplu: 'aplicatia 2' -> nume_aplicatia%202
+        System.out.println("Am pasat nume_task: " + nume_task);
+        List<Taskuri> tasks = taskuriService.getTasksByUserAndTaskname(utilizator, nume_task);
+        if(tasks.isEmpty()){
+            return ResponseEntity.notFound().build(); //daca nu a gasit nimic va intoarce 404. Atentie! Nu va intoarce un body (pentru asta va fi nevoie de dezvoltare RestControllerAdvice)
+            //Va returna:
+            //HTTP/1.1 404 Not Found
+            //Content-Length: 0
+        }
+        return ResponseEntity.ok(tasks);
+    }
+
+
 
     @GetMapping("/test_user_{nume}")
     public boolean verificareUtilizator(@PathVariable String nume){
@@ -58,9 +73,6 @@ public class TaskuriController {
 
 
     //de create metode pentru:
-    //creare task
-    //modificare task
-    //trimitere taskuri dupa id utilizator
     //trimitere task dupa id utilizator si nume task
     //stergere task
 }

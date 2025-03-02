@@ -22,4 +22,10 @@ public interface TaskuriRepository extends JpaRepository<Taskuri, Long> {
     // Daca nu punem si id-ul task-ului, se va genera un task-nou in db si noi vrem doar sa-i facem update
     @Query(value = "SELECT DISTINCT id FROM tasks t WHERE t.titlu = :titlu", nativeQuery = true)
     Long getTaskIDByTitlu(@Param("titlu") String titlu);
+
+    //Aduce detalii despre task dupa numele utilizatorului si numele titlului
+    @Query(value = "SELECT t.* " +
+                    "FROM tasks t " +
+                    "INNER JOIN users u ON u.id = t.user_id AND u.nume = :numeUtilizator AND lower(t.titlu) = :numeTask", nativeQuery = true)
+    List<Taskuri> getTaskByUserAndTaskname(@Param("numeUtilizator") String numeUtilizator, @Param("numeTask") String numeTask);
 }

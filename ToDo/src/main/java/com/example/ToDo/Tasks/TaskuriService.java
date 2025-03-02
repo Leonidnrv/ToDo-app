@@ -18,12 +18,19 @@ public class TaskuriService {
         return taskuriRepository.findAll();
     }
 
+    //intoarce task-urile in functie de utilizator
     public List<Taskuri> getTasksByUser(String numeUtilizator){
         return taskuriRepository.getTaskByUser(numeUtilizator);
     }
 
+    //Intoarce task-urile in functie de utilizator si prioritate
     public List<Taskuri> getTasksByUserAndPriority(String numeUtilizator, String prioritateTask){
         return taskuriRepository.getTaskByUserAndPriority(numeUtilizator, prioritateTask);
+    }
+
+    //Intoarce task-urile in functie de utilizator si numele taskului
+    public List<Taskuri> getTasksByUserAndTaskname(String numeUtilizator, String taskName){
+        return taskuriRepository.getTaskByUserAndTaskname(numeUtilizator, taskName);
     }
 
     //1.de studiat cum va functiona metoda pentru ca este posibil sa facem overload la ea. Daca se completeaza si descrierea + alte campuri optionale.
@@ -78,5 +85,4 @@ public class TaskuriService {
         return taskuriRepository.getTaskIDByTitlu(titlu);
     }
 
-    //de implementat metoda care va returna taskurile in functie de utilizator si prioritate
 }
