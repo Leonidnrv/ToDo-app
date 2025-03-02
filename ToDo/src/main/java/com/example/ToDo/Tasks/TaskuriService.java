@@ -18,31 +18,42 @@ public class TaskuriService {
         return taskuriRepository.findAll();
     }
 
-    public List<Taskuri> getTasksByUser(Long id){
-        return taskuriRepository.getTaskByUser(id);
+    public List<Taskuri> getTasksByUser(String numeUtilizator){
+        return taskuriRepository.getTaskByUser(numeUtilizator);
+    }
+
+    public List<Taskuri> getTasksByUserAndPriority(String numeUtilizator, String prioritateTask){
+        return taskuriRepository.getTaskByUserAndPriority(numeUtilizator, prioritateTask);
     }
 
     //1.de studiat cum va functiona metoda pentru ca este posibil sa facem overload la ea. Daca se completeaza si descrierea + alte campuri optionale.
     public Taskuri saveTask(String titlu, String nume_utilizator, String descriere, String status /*va trebui validat*/,LocalDateTime due_date, String prioritate /*va trebui validat*/){
         Taskuri taskNou;
         if(verificareExistentaUtilizator(nume_utilizator)){ //verificam daca utilizatorul exista
-            Long user_id = returnIdByNumeUtilizator(nume_utilizator); //stocam id-ul utilizatorului
-            taskNou = new Taskuri(13L,titlu, descriere, status, due_date, prioritate, user_id); //cream entitatea task
             //De adaptat codul pentru formatul de data:
             // DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
             // LocalDateTime localDate = LocalDateTime.of(2025,03,25,23,0);
             // String dataFinala = localDate.format(dateTimeFormatter);
             // System.out.println("Data finala: " + dataFinala);
+
+            //Va trebui sa stocam user_id si id_task. Motivul este ca
+            //Vom primi numele utilizatorului si trebuie gasit id-ul lui in baza de date
+            //Vom primi titlul task-ului si va trebui sa gasim id-ul lui in baza de date
+            Long user_id = returnIdByNumeUtilizator(nume_utilizator); //stocam id-ul utilizatorului
+            Long id_task = returnIdByTitluTask(titlu);
+            if(id_task != null){
+                taskNou = new Taskuri(id_task, titlu, descriere, status, due_date, prioritate, user_id);//cream entitatea task
+            }else{
+                taskNou = new Taskuri(titlu, descriere, status, due_date, prioritate, user_id);
+            }
+            //Daca task-ul exista, atunci taskNou va trebui sa aiba specificat si id-ul taskului deci constructorul va avea si id
+            //Daca nu exista, atunci tasknou va ignora id-ul si va genera automat din dbms
             taskuriRepository.save(taskNou); //save() va salva task-ul sau va face update daca exista deja linia.
         }else{
             //In else nu se va ajunge niciodata pentru ca tot timpul va primi un utilizator. Task-urile se vor creea doar dupa ce user-ul se logheaza in sistem, deci va exista!
         }
         return null;
     }
-    //2.De creat metoda care modifica notele
-    //3.Modificare status
-    //4. Modificare status si prioritate
-    //Ca sa nu mai fac mai multe metode in stilul overload, pot face doar una si de acolo sa fac update in db in cu parametrii care nu vin NULL de la client
 
 
     @Autowired
@@ -55,12 +66,17 @@ public class TaskuriService {
             return true;
         }
     }
+
+
     public Long returnIdByNumeUtilizator(String nume){//metoda folosita in saveTask(). Daca utilizatorul exista, vom introduce numele lui si se va intoarce id-ul din db
         return utilizatoriRepository.idByNume(nume);
     }
 
 
-    //de implementat metoda care va returna taskurile in functie de utilizator
+    //metoda folosita pentru a returna id-ul task-ului. Daca nu il gasim vom folosi constructorul care nu primeste idul de task
+    public Long returnIdByTitluTask(String titlu){
+        return taskuriRepository.getTaskIDByTitlu(titlu);
+    }
+
     //de implementat metoda care va returna taskurile in functie de utilizator si prioritate
-    //metoda pentru taskuri in functie de prioritate
 }

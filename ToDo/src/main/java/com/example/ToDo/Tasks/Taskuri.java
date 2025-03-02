@@ -50,8 +50,18 @@ public class Taskuri {
         this.due_date = due_date;
         this.prioritate = prioritate;
     }
+    //Acest constructor va fi folosit si cand vom avea un task existent si va fi nevoie sa actualizam linia si nu sa o creem din nou
     public Taskuri(Long id, String titlu, String descriere, String status, LocalDateTime due_date, String prioritate, Long user_id){
         this.id = id;
+        this.titlu = titlu;
+        this.descriere = descriere;
+        this.status = status;
+        this.due_date = due_date;
+        this.prioritate = prioritate;
+        this.user_id = user_id;
+    }
+    //Acest constructor va fi folosit cand nu vom gasi numele task-ului si vom lasa ca sa fie creat unul nou.
+    public Taskuri(String titlu, String descriere, String status, LocalDateTime due_date, String prioritate, Long user_id){
         this.titlu = titlu;
         this.descriere = descriere;
         this.status = status;

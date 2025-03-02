@@ -20,9 +20,21 @@ public class TaskuriController {
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/{utilizator}") //se inva insera id-ul utilizatorului ca parametru
-    public ResponseEntity<List<Taskuri>> getTasksByUser(@PathVariable Long utilizator){
+    @GetMapping("/{utilizator}") //se insera numele utilizatorului ca parametru
+    public ResponseEntity<List<Taskuri>> getTasksByUser(@PathVariable String utilizator){
         List<Taskuri> tasks = taskuriService.getTasksByUser(utilizator);
+        if(tasks.isEmpty()){
+            return ResponseEntity.notFound().build(); //daca nu a gasit nimic va intoarce 404. Atentie! Nu va intoarce un body (pentru asta va fi nevoie de dezvoltare RestControllerAdvice)
+            //Va returna:
+            //HTTP/1.1 404 Not Found
+            //Content-Length: 0
+        }
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/{utilizator}/{prioritate_task}") //se insera numele utilizatorului ca parametru
+    public ResponseEntity<List<Taskuri>> getTasksByUserAndPriority(@PathVariable String utilizator, @PathVariable String prioritate_task){
+        List<Taskuri> tasks = taskuriService.getTasksByUserAndPriority(utilizator, prioritate_task);
         if(tasks.isEmpty()){
             return ResponseEntity.notFound().build(); //daca nu a gasit nimic va intoarce 404. Atentie! Nu va intoarce un body (pentru asta va fi nevoie de dezvoltare RestControllerAdvice)
             //Va returna:
@@ -40,7 +52,7 @@ public class TaskuriController {
     @PostMapping("/test_save_task")
     public ResponseEntity<Taskuri> saveTask(){
         LocalDateTime localDateTime = LocalDateTime.of(2025,2,25,0,0,0);
-        Taskuri nouTask = taskuriService.saveTask("Titlu1", "User2", "Descriere1_Modificat", "In lucru", localDateTime, "0");
+        Taskuri nouTask = taskuriService.saveTask("Titlu6", "User2", "Am modificat descrierea", "In asteptare", localDateTime, "1");
         return ResponseEntity.ok(nouTask);
     }
 
