@@ -28,4 +28,5 @@ public interface TaskuriRepository extends JpaRepository<Taskuri, Long> {
                     "FROM tasks t " +
                     "INNER JOIN users u ON u.id = t.user_id AND u.nume = :numeUtilizator AND lower(t.titlu) = :numeTask", nativeQuery = true)
     List<Taskuri> getTaskByUserAndTaskname(@Param("numeUtilizator") String numeUtilizator, @Param("numeTask") String numeTask);
+
 }
