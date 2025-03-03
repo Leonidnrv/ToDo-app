@@ -86,4 +86,10 @@ public class TaskuriService {
         return taskuriRepository.getTaskIDByTitlu(titlu);
     }
 
+    //stergere task
+    public boolean deleteTask(String titluTask, String numeUtilizator){
+        int delete = taskuriRepository.deleteTask(titluTask, numeUtilizator); //stocheaza 1 daca s-a sters ceva, 0 daca nu a sters nicio linie
+        return delete == 1 ? true : false;
+    }
+
 }

@@ -74,5 +74,14 @@ public class TaskuriController {
 
     //de create metode pentru:
     //stergere task
+    @DeleteMapping("/{numeUtilizator}/task_{titluTask}")
+    public ResponseEntity<Void> deleteTask(@PathVariable String numeUtilizator, @PathVariable String titluTask){
+        boolean deleted = taskuriService.deleteTask(titluTask, numeUtilizator);
+        if(deleted){
+            return ResponseEntity.noContent().build(); //204 No Content daca s-a sters
+        }else{
+            return ResponseEntity.notFound().build(); //404 Not Found daca nu a gasit nimic ce sa stearga
+        }
+    }
     //adaugare task
 }

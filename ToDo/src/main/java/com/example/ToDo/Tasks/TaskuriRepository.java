@@ -1,6 +1,8 @@
 package com.example.ToDo.Tasks;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -28,5 +30,13 @@ public interface TaskuriRepository extends JpaRepository<Taskuri, Long> {
                     "FROM tasks t " +
                     "INNER JOIN users u ON u.id = t.user_id AND u.nume = :numeUtilizator AND lower(t.titlu) = :numeTask", nativeQuery = true)
     List<Taskuri> getTaskByUserAndTaskname(@Param("numeUtilizator") String numeUtilizator, @Param("numeTask") String numeTask);
+
+    //Stergere task
+    @Modifying //necesar pentru queriuri care modifica date (DELETE, UPDATE)
+    @Transactional
+    @Query(value = "DELETE FROM tasks t " +
+                    "USING users u " +
+                    "WHERE u.id = t.user_id AND lower(t.titlu) = :titluTask AND u.nume = :numeUtilizator", nativeQuery = true)
+    int deleteTask(@Param("titluTask") String titluTask, @Param("numeUtilizator") String numeUtilizator); //returneaza int = nr. de linii sterse
 
 }
