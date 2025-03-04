@@ -64,12 +64,13 @@ public class TaskuriController {
         return taskuriService.verificareExistentaUtilizator(nume);
     }
 
-    @PostMapping("/test_save_task")
-    public ResponseEntity<Taskuri> saveTask(){
-        LocalDateTime localDateTime = LocalDateTime.of(2025,2,25,0,0,0);
-        Taskuri nouTask = taskuriService.saveTask("Titlu6", "User2", "Am modificat descrierea", "In asteptare", localDateTime, "1");
+    //De continuat
+    /*@PostMapping("/creare")
+    public ResponseEntity<String> creareTask(){
+        LocalDateTime localDateTime = LocalDateTime.of(2025,2,25,0,0);
+        Taskuri nouTask = taskuriService.saveTask("Titlu7", "User2", "Am modificat descrierea", "In asteptare", localDateTime, "1");
         return ResponseEntity.ok(nouTask);
-    }
+    }*/
 
 
     //de create metode pentru:
