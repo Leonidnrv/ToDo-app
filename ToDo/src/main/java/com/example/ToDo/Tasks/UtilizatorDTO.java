@@ -1,7 +1,7 @@
 package com.example.ToDo.Tasks;
 
 public class UtilizatorDTO {
-    //voi pune toate campurile aici si voi folosi doar nume in TaskuriDTO
+    //nu mai este necesara aceasta clasa. Se poate sterge.
     private Long id;
     private String nume;
 

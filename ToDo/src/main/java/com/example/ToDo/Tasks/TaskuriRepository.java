@@ -39,4 +39,5 @@ public interface TaskuriRepository extends JpaRepository<Taskuri, Long> {
                     "WHERE u.id = t.user_id AND lower(t.titlu) = :titluTask AND u.nume = :numeUtilizator", nativeQuery = true)
     int deleteTask(@Param("titluTask") String titluTask, @Param("numeUtilizator") String numeUtilizator); //returneaza int = nr. de linii sterse
 
+    
 }

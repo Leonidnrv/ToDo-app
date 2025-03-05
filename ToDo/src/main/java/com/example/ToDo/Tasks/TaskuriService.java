@@ -100,13 +100,12 @@ public class TaskuriService {
         taskNou.setStatus(taskNouDTO.getStatus());
         taskNou.setDue_date(taskNouDTO.getDue_date());
         taskNou.setPrioritate(taskNouDTO.getPrioritate());
-        taskNou.setUtilizatorDTO_Nume();
+        taskNou.setUtilizatorNume(taskNouDTO.getUtilizatorNume());
 
-        UtilizatorDTO utilizatorDTO = new UtilizatorDTO();
-        Long idUtilizator = returnIdByNumeUtilizator(utilizatorDTO.getNume());
-        utilizatorDTO.setId(idUtilizator);
+        Long idUtilizator = returnIdByNumeUtilizator(taskNouDTO.getUtilizatorNume());
 
-        //de creat metoda in repository pentru a salva taskul
+        //de creat metoda in repository pentru a salva taskul. Va primi ca parametri: titlu, descriere, status, due_date, prioritate, id_utilizator
+        // !!! este posibil sa nu este nevoie sa creez metoda in repository. De studiat!
         
     }
 

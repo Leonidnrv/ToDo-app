@@ -11,16 +11,16 @@ public class TaskuriDTO {
     private String status;
     private LocalDateTime due_date;
     private String prioritate;
-    private UtilizatorDTO utilizatorDTO_Nume;
+    private String utilizatorNume;
 
     public TaskuriDTO(){}
-    public TaskuriDTO(String titlu, String descriere, String status, LocalDateTime due_date, String prioritate, UtilizatorDTO utilizatorDTO_Nume){
+    public TaskuriDTO(String titlu, String descriere, String status, LocalDateTime due_date, String prioritate, String utilizatorNume){
         this.titlu = titlu;
         this.descriere = descriere;
         this.status = status;
         this.due_date = due_date;
         this.prioritate = prioritate;
-        this.utilizatorDTO_Nume = utilizatorDTO_Nume;
+        this.utilizatorNume = utilizatorNume;
     }
 
     public String getTitlu() {
@@ -63,11 +63,12 @@ public class TaskuriDTO {
         this.prioritate = prioritate;
     }
 
-    public UtilizatorDTO getUtilizatorDTO_Nume(){
-        return this.utilizatorDTO_Nume;
+    public String getUtilizatorNume(){
+        return this.utilizatorNume;
     }
 
-    public void setUtilizatorDTO_Nume(UtilizatorDTO utilizatorDTO_Nume){
-        this.utilizatorDTO_Nume = utilizatorDTO_Nume;
+    public void setUtilizatorNume(String utilizatorNume){
+        this.utilizatorNume = utilizatorNume;
     }
+    
 }
