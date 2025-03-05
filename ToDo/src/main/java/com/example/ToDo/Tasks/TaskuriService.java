@@ -93,7 +93,7 @@ public class TaskuriService {
     }
 
     //creare task
-    public void creareTaskNou(TaskuriDTO taskNouDTO){
+    public int creareTaskNou(TaskuriDTO taskNouDTO){
         TaskuriDTO taskNou = new TaskuriDTO(); //titlu, descriere, status, due_date, prioritate, nume_utilizator
         taskNou.setTitlu(taskNouDTO.getTitlu());
         taskNou.setDescriere(taskNouDTO.getDescriere());
@@ -106,6 +106,7 @@ public class TaskuriService {
 
         //de creat metoda in repository pentru a salva taskul. Va primi ca parametri: titlu, descriere, status, due_date, prioritate, id_utilizator
         // !!! este posibil sa nu este nevoie sa creez metoda in repository. De studiat!
+        return taskuriRepository.saveTaskNou(taskNou.getTitlu(), taskNou.getDescriere(), taskNou.getStatus(), taskNou.getDue_date(), taskNou.getPrioritate(), idUtilizator);
         
     }
 

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import java.time.LocalDateTime;
 
 import java.util.List;
 
@@ -39,5 +40,15 @@ public interface TaskuriRepository extends JpaRepository<Taskuri, Long> {
                     "WHERE u.id = t.user_id AND lower(t.titlu) = :titluTask AND u.nume = :numeUtilizator", nativeQuery = true)
     int deleteTask(@Param("titluTask") String titluTask, @Param("numeUtilizator") String numeUtilizator); //returneaza int = nr. de linii sterse
 
-    
+    //Adaugare task nou
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO tasks (titlu, descriere, status, due_date, prioritate, idUtilizator) " +
+                   "VALUES (:titlu, :descriere, :status, :due_date, :prioritate, :idUtilizator);", nativeQuery = true)
+    int saveTaskNou(@Param("titlu") String titluTask, 
+                    @Param("descriere") String descriere, 
+                    @Param("status") String status,
+                    @Param("due_date") LocalDateTime due_date,
+                    @Param("prioritate") String prioritate,
+                    @Param("idUtilizator") Long idUtilizator);
 }
