@@ -94,15 +94,17 @@ public class TaskuriService {
 
     //creare task
     public void creareTaskNou(TaskuriDTO taskNouDTO){
-        Taskuri taskNou = new Taskuri(); //titlu, descriere, status, due_date, prioritate, nume_utilizator
+        TaskuriDTO taskNou = new TaskuriDTO(); //titlu, descriere, status, due_date, prioritate, nume_utilizator
         taskNou.setTitlu(taskNouDTO.getTitlu());
         taskNou.setDescriere(taskNouDTO.getDescriere());
         taskNou.setStatus(taskNouDTO.getStatus());
         taskNou.setDue_date(taskNouDTO.getDue_date());
         taskNou.setPrioritate(taskNouDTO.getPrioritate());
+        taskNou.setUtilizatorDTO_Nume();
 
         UtilizatorDTO utilizatorDTO = new UtilizatorDTO();
-        utilizatorDTO.setNume(taskNouDTO.getNume_utilizator());
+        Long idUtilizator = returnIdByNumeUtilizator(utilizatorDTO.getNume());
+        utilizatorDTO.setId(idUtilizator);
 
         //de creat metoda in repository pentru a salva taskul
         

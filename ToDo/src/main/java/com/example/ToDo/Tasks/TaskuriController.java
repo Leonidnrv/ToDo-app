@@ -68,16 +68,7 @@ public class TaskuriController {
         return taskuriService.verificareExistentaUtilizator(nume);
     }
 
-    //De continuat
-    /*@PostMapping("/creare")
-    public ResponseEntity<String> creareTask(){
-        LocalDateTime localDateTime = LocalDateTime.of(2025,2,25,0,0);
-        Taskuri nouTask = taskuriService.saveTask("Titlu7", "User2", "Am modificat descrierea", "In asteptare", localDateTime, "1");
-        return ResponseEntity.ok(nouTask);
-    }*/
 
-
-    //de create metode pentru:
     //stergere task
     @DeleteMapping("/{numeUtilizator}/task_{titluTask}")
     public ResponseEntity<Void> deleteTask(@PathVariable String numeUtilizator, @PathVariable String titluTask){
@@ -92,9 +83,8 @@ public class TaskuriController {
     //adaugare task
     @PostMapping("/creare%task")
     public ResponseEntity<String> creareTask(@RequestBody TaskuriDTO taskNouDTO) {
-
         taskuriService.creareTaskNou(taskNouDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("S-a creat taskul.");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Task creat cu succes.");
         
     }
     
