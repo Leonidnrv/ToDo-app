@@ -81,11 +81,19 @@ public class TaskuriController {
     }
 
     //adaugare task
-    @PostMapping("/creare%task")
+    @PostMapping("/crearetask")
     public ResponseEntity<String> creareTask(@RequestBody TaskuriDTO taskNouDTO) {
         taskuriService.creareTaskNou(taskNouDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Task creat cu succes.");
-        
+        //Exemplu de json:
+//        {
+//            "titlu": "TestareDTO",
+//                "descriere": "TestareDTO descriere",
+//                "status": "In lucru",
+//                "due_date": "2025-01-01T00:00:00",
+//                "prioritate": "0",
+//                "utilizatorNume": "User2"
+//        }
     }
     
 }

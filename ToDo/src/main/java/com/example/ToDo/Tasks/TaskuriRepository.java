@@ -43,7 +43,7 @@ public interface TaskuriRepository extends JpaRepository<Taskuri, Long> {
     //Adaugare task nou
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO tasks (titlu, descriere, status, due_date, prioritate, idUtilizator) " +
+    @Query(value = "INSERT INTO tasks (titlu, descriere, status, due_date, prioritate, user_id) " +
                    "VALUES (:titlu, :descriere, :status, :due_date, :prioritate, :idUtilizator);", nativeQuery = true)
     int saveTaskNou(@Param("titlu") String titluTask, 
                     @Param("descriere") String descriere, 

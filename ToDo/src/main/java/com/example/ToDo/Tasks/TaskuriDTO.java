@@ -1,5 +1,6 @@
 package com.example.ToDo.Tasks;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.convert.Jsr310Converters;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ public class TaskuriDTO {
     private String titlu;
     private String descriere;
     private String status;
+    //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime due_date;
     private String prioritate;
     private String utilizatorNume;
