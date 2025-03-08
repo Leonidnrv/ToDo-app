@@ -77,8 +77,6 @@ public class TaskuriService {
 
 
     public Long returnIdByNumeUtilizator(String nume){//metoda folosita in saveTask(). Daca utilizatorul exista, vom introduce numele lui si se va intoarce id-ul din db
-        Long id = utilizatoriRepository.idByNume(nume);
-        System.out.println(id + " id-ul gasit");
         return utilizatoriRepository.idByNume(nume);
     }
 
