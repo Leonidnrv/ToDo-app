@@ -84,6 +84,7 @@ public class TaskuriController {
     @PostMapping("/crearetask")
     public ResponseEntity<String> creareTask(@RequestBody TaskuriDTO taskNouDTO) {
         int valid = taskuriService.creareTaskNou(taskNouDTO);
+        System.out.println("Task-uri controller. Valid: " + valid);
         if(valid == 1){ //creareTaskNow intoarce 1 daca se insereaza linia in db
             return ResponseEntity.status(HttpStatus.CREATED).body("Task creat cu succes.");
         }else{
