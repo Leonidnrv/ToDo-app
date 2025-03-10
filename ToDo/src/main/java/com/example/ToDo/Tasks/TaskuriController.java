@@ -101,5 +101,11 @@ public class TaskuriController {
     //            "utilizatorNume": "User2"
     //    }
     }
+
+    @PostMapping("/birt")
+    public ResponseEntity<String> testareBirt(){
+        System.out.println("Test");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Testare cu succes");
+    }
     
 }
