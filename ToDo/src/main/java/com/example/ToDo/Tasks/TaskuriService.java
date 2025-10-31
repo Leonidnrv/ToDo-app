@@ -103,7 +103,7 @@ public class TaskuriService {
         taskNou.setUtilizatorNume(taskNouDTO.getUtilizatorNume());
 
         Long idUtilizator = returnIdByNumeUtilizator(taskNouDTO.getUtilizatorNume());
-        if(idUtilizator == null){
+        if(idUtilizator == null){ //daca nu gasim utilizatorul intoarce -1
             return -1;
         }
         return taskuriRepository.saveTaskNou(taskNou.getTitlu(),
