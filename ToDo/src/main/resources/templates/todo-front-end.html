@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- Comentariu -->
+<html xmlns:th="http://www.thymeleaf.org"> <!-- Defineste radacina documentului HTML -->
+<!-- xmlns:th inregistreaza namespace-ul Tymeleaf, care activeaza atributele th: (ca th:text, th:each, etc.). Fara el, Thymeleaf n-ar recunoaste aceste atribute speciale -->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; }
+        form { margin-bottom: 1rem; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 0.5rem; display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; }
+        .done { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+<h1>📝 My To-Do List</h1>
+<!--<form action="/action_page.php" method="get">
+    <label for="fname">First name:</label>
+    <input type="text" id="fname" name="fname"><br><br>
+    <label for="lname">Last name:</label>
+    <input type="text" id="lname" name="lname"><br><br>
+    <input type="submit" value="Submit">
+</form>-->
+
+<!--form permite userilor sa adauge task-uri noi
+th:action="@{/add}" este o expresie Thymeleaf care genereaza URL-ul /add la runtime. Metoda POST specifica ce tip de request se trimite pe server.-->
+<form action="@{/taskuri/birt}" method="post">
+    <input type="text" name="title" placeholder="New task..." required>
+    <button type="submit">Add</button>
+</form>
+<!-- ul = unirdered list. Inauntrul ei folosim Thymeleaf pentru a genera elemente <li> dinamic pentru fiecare item to-do
+<li th:each=todo" : {todos}"> este un tag foarte important pentru ca itereaza pe o colectie}-->
+
+<ul>
+    <li th:each="todo: ${todos}">
+        <span th:text="$<todo.title}" th.classappend="${todo.done} ? 'done' : ''"></span>
+        <div>
+            <form th:action="@{'/done/' + ${todo.id}}" method="post" th:if="${!todo.done}">
+                <button type="submit">✔</button>
+            </form>
+            <form th:action="@{'/delete/' + ${todo.id}}" method="post">
+                <button type="submit">🗑</button>
+            </form>
+        </div>
+    </li>
+</ul>
+
+</body>
+</html>
