@@ -114,4 +114,14 @@ public class TaskuriService {
                                     idUtilizator);
     }
 
+    //update status task
+    public boolean updateStatusTask(String numeUtilizator, String taskName, String newStatus){
+        //Verificam daca s-a modificat statusul. 1 = modificat, 0 = nu s-a modificat, >1 = bug
+        int check = taskuriRepository.updateStatusTask(numeUtilizator, taskName, newStatus);
+        if(check == 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

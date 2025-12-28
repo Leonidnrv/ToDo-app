@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.btn-delete {
+    background-color: #1e90ff;
+    color: white;
+    padding: 10px 18px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-delete:hover {
+    background-color: #187bcd;
+}
+
+.title {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 2px solid #1e90ff;
+    border-radius: 50px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e90ff;
+    background-color: #f4f9ff;
+    margin-bottom: 20px;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    width: 90%;              /* lățimea totală a containerului */
+    max-width: 1200px;       /* limitează lățimea pe ecrane mari */
+    margin: 20px auto;       /* centrare orizontală și spațiu sus/jos */
+    padding: 20px;           /* spațiu interior */
+    border: 2px solid #007BFF; /* chenar albastru */
+    border-radius: 15px;     /* colțuri rotunjite */
+    background-color: #f9f9f9; /* fundal deschis */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* umbră subtilă */
+}
+
+
+
+
+.content {
+    display: flex;
+    gap: 40px;              /* spațiu între menu și listă */
+    align-items: flex-start;
+    justify-content: center; /* centru orizontal */
+}
+
+
+
+#taskTable {
+    width: 20%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#taskTable th, #taskTable td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: left;
+    text-align: center;
+}
+
+#taskTable th {
+    background-color: #1e90ff;
+    color: white;
+}
+
+#taskTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+.tasks tbody td:nth-child(5):hover {
+    cursor: pointer; 
+    background-color: #f0f0f0; 
+    transition: background-color 0.2s ease; 
+}

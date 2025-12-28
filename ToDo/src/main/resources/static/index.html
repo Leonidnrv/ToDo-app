@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <title>ToDo</title>
+    <style>
+        .done { text-decoration: line-through; color: gray; }
+    </style>
+    <link rel="icon" type="image/png" href="book.png">
+</head>
+<body>
+
+<div class="app-container">
+    <h1 class="title">Small application for keeping track of tasks</h1><br>
+
+    <div class="content">
+        <div class="menu">
+
+            <p><b>User:</b></p>
+            <input id="utilizatorNume" placeholder="Insert the user"><br><br>
+            <hr/>
+
+            <p><b>Create task:</b></p>
+            <input id="titlu" placeholder="Title"><br/>
+            <textarea id="descriere" placeholder="Description"></textarea><br/>
+
+            <p><b>Status:</b></p>
+            <select id="status">
+                <option>In lucru</option>
+                <option>In asteptare</option>
+                <option>Finalizat</option>
+            </select><br/>
+
+            <p><b>Due date:</b></p>
+            <input type="datetime-local" id="due_date"><br/>
+
+            <p><b>Priority:</b></p>
+            <select id="prioritate">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select><br><br>
+
+            <button class="btn-delete" onclick="createTask()">Create</button>
+        </div>
+
+
+        </br><hr/>
+
+        <div class="tasks">
+            <div class="todo-list-button" style="display:flex; align-items: center; gap: 20px;">
+                <h1>To-Do list:</h1>
+                <button onclick="loadTasks()">Load tasks...</button>
+            </div>
+            
+
+            <table id="taskTable">
+            <thead>
+                <tr>
+                    <th>Task name</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>Due date</th>
+                    <th>Status</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="taskTableBody">
+                <!-- rânduri generate dinamic -->
+                <ul id="taskList"></ul>
+            </tbody>
+            </table>
+
+            <!-- <input id="user" placeholder="User"/> -->
+            
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+function loadTasks() {
+    const user = document.getElementById("utilizatorNume").value;
+
+    fetch(`/taskuri/${user}`)
+        .then(res => res.json())
+        .then(tasks => {
+            const tbody = document.getElementById("taskTableBody");
+            tbody.innerHTML = "";
+
+            tasks.forEach(t => {
+                const tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                    <td class="${t.status === 'Finalizat' ? 'done' : ''}">
+                        ${t.titlu}
+                    </td>
+                    <td>${t.descriere}</td>
+                    <td>${t.prioritate}</td>
+                    <td>${t.due_date}</td>
+                    <td onclick="editStatus(this, '${t.titlu}')" title="Press click to change the status">
+                        <span class="status-text">${t.status}</span>
+                        <select class="status-select" style="display:none"
+                            onchange="saveStatus(this, '${t.titlu}')"
+                            onblur="saveStatus(this, '${t.titlu}')">
+                                <option>In asteptare</option>
+                                <option>In lucru</option>
+                                <option>Finalizat</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn-delete"
+                            onclick="deleteTask('${user}','${t.titlu}')">
+                            Delete
+                        </button>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+        });
+}
+
+
+function editStatus(td, titlu) {
+    const span = td.querySelector(".status-text");
+    const select = td.querySelector(".status-select");
+    const utilizator = document.getElementById("utilizatorNume").value;
+    
+    if (!utilizator) {
+        alert("Please insert a User name first.");
+        return;
+    }
+
+    // Set the select box value to the current status
+    select.value = span.innerText.trim(); 
+    span.style.display = "none";
+    select.style.display = "inline";
+    select.focus();
+
+    // Function to handle the saving and UI update
+    const handleSave = () => {
+        const newStatus = select.value;
+
+        fetch(`/taskuri/${encodeURIComponent(utilizator)}/${encodeURIComponent(titlu)}/${encodeURIComponent(newStatus)}`, {
+            method: "PUT"
+        })
+        .then(res => {
+            if(res.ok){
+                span.innerText = newStatus;
+                
+                // Toggle the 'done' class on the task name column (first cell)
+                const taskNameCell = td.parentElement.querySelector('td:first-child');
+                if (newStatus === 'Finalizat') {
+                    taskNameCell.classList.add('done');
+                } else {
+                    taskNameCell.classList.remove('done');
+                }
+
+                console.log(`Status updated to ${newStatus}`);
+            } else {
+                alert("Error updating status on the server.");
+            }
+        })
+        .finally(() => {
+            // Revert to showing the status text (span)
+            select.style.display = "none";
+            span.style.display = "inline";
+        });
+    };
+
+    // Attach event listeners for change and blur
+    select.onchange = handleSave;
+    
+    // Use onblur only to hide the select box if no change occurred
+    select.onblur = () => {
+        // If the change event hasn't already fired and hidden the select, hide it now.
+        if (select.style.display !== "none") {
+             select.style.display = "none";
+             span.style.display = "inline";
+        }
+    };
+}
+
+
+function deleteTask(user, title) {
+    if(!confirm("Delete task?")) return;
+
+    fetch(`/taskuri/${user}/task_${title}`, {
+        method: "DELETE"
+    }).then(() => loadTasks());
+}
+
+function createTask() {
+    const dto = {
+        titlu: document.getElementById("titlu").value,
+        descriere: document.getElementById("descriere").value,
+        status: document.getElementById("status").value,
+        due_date: document.getElementById("due_date").value,
+        prioritate: document.getElementById("prioritate").value,
+        utilizatorNume: document.getElementById("utilizatorNume").value
+    };
+
+    fetch("/taskuri/crearetask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dto)
+    })
+    .then(() => {
+        alert("Task created");
+        loadTasks();
+    });
+}
+</script>
+
+</body>
+</html>

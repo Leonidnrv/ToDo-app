@@ -102,10 +102,15 @@ public class TaskuriController {
     //    }
     }
 
-    @PostMapping("/birt")
-    public ResponseEntity<String> testareBirt(){
-        System.out.println("Test");
-        return ResponseEntity.status(HttpStatus.CREATED).body("Testare cu succes");
+
+    //Update status task
+    @PutMapping("/{numeUtilizator}/{taskName}/{newStatus}")
+    public ResponseEntity<Void> updateStatusTask(@PathVariable String numeUtilizator, @PathVariable String taskName, @PathVariable String newStatus){
+        boolean changed = taskuriService.updateStatusTask(numeUtilizator, taskName, newStatus);
+        if(changed){
+            return ResponseEntity.noContent().build(); //204 No Content daca s-a sters
+        }else{
+            return ResponseEntity.notFound().build(); //404 Not Found daca nu a gasit nimic ce sa stearga
+        }
     }
-    
 }

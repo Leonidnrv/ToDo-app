@@ -58,7 +58,7 @@ public class Taskuri {
         this.status = status;
         this.due_date = due_date;
         this.prioritate = prioritate;
-        this.user_id = user_id;
+        //this.user_id = user_id;
     }
     //Acest constructor va fi folosit cand nu vom gasi numele task-ului si vom lasa ca sa fie creat unul nou.
     public Taskuri(String titlu, String descriere, String status, LocalDateTime due_date, String prioritate, Long user_id){
@@ -67,7 +67,7 @@ public class Taskuri {
         this.status = status;
         this.due_date = due_date;
         this.prioritate = prioritate;
-        this.user_id = user_id;
+        //this.user_id = user_id;
     }
 
     public Long getId() {

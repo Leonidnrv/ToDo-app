@@ -12,11 +12,13 @@ import java.util.List;
 public interface TaskuriRepository extends JpaRepository<Taskuri, Long> {
 
     //Metoda folosita pentru a aduce task-urile in functie de numele unui utilizator ca parametru
-    @Query(value = "SELECT t.* FROM tasks t INNER JOIN users u ON u.id = t.user_id AND u.nume = :numeUtilizator", nativeQuery = true)
+    @Query(value = "SELECT t.*, u.nume AS utilizatorNume " +
+                   "FROM tasks t " +
+                   "INNER JOIN users u ON u.id = t.user_id AND u.nume = :numeUtilizator", nativeQuery = true)
     List<Taskuri> getTaskByUser(@Param("numeUtilizator") String numeUtilizator);
 
     //Aduce task-urile in functie de nume utilizator si prioritate task
-    @Query(value = "SELECT t.* " +
+    @Query(value = "SELECT t.*" +
                    "FROM tasks t " +
                    "INNER JOIN users u ON u.id = t.user_id AND u.nume = :numeUtilizator AND t.prioritate = :prioritateTask", nativeQuery = true)
     List<Taskuri> getTaskByUserAndPriority(@Param("numeUtilizator") String numeUtilizator, @Param("prioritateTask") String prioritateTask);
@@ -37,7 +39,7 @@ public interface TaskuriRepository extends JpaRepository<Taskuri, Long> {
     @Transactional
     @Query(value = "DELETE FROM tasks t " +
                     "USING users u " +
-                    "WHERE u.id = t.user_id AND lower(t.titlu) = :titluTask AND u.nume = :numeUtilizator", nativeQuery = true)
+                    "WHERE u.id = t.user_id AND t.titlu = :titluTask AND u.nume = :numeUtilizator", nativeQuery = true)
     int deleteTask(@Param("titluTask") String titluTask, @Param("numeUtilizator") String numeUtilizator); //returneaza int = nr. de linii sterse
 
     //Adaugare task nou
@@ -51,4 +53,18 @@ public interface TaskuriRepository extends JpaRepository<Taskuri, Long> {
                     @Param("due_date") LocalDateTime due_date,
                     @Param("prioritate") String prioritate,
                     @Param("idUtilizator") Long idUtilizator);
+
+    //Modificare status
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE tasks\n" +
+            "SET status = :status\n" +
+            "WHERE titlu = :titlu AND\n" +
+            "\tuser_id IN (\n" +
+                "SELECT u.id\n" +
+                "FROM users u\n" +
+                "WHERE u.nume = :numeUtilizator);", nativeQuery = true)
+    int updateStatusTask(@Param("numeUtilizator") String numeUtilizator,
+                         @Param("titlu") String titlu,
+                         @Param("status") String status);
 }
